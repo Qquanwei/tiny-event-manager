@@ -2,7 +2,7 @@
 
 # tiny event manager
 
-Javascript 统一所有的事件资源
+Javascript 轻量资源管理器
 
 
 ## demo
