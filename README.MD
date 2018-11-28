@@ -8,7 +8,7 @@ Javascript 统一所有的事件资源
 ## demo
 
 ```javascript
-import { createInterval, createTimeout, createEventListener } from 'tiny-event';
+import { createInterval, createTimeout, createEventListener } from 'tiny-event-manager';
 
 const sub1 = createInterval(() => {}, 1000);
 const sub2 = createTimeout(() => {}, 1000);

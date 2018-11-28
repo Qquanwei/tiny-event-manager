@@ -1,5 +1,5 @@
 {
-  "name": "tiny-event",
+  "name": "tiny-event-manager",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
     "build": "babel src --out-dir dist"
   },
   "keywords": [],
-  "author": "",
+  "author": "Qquanwei",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.1.5",
