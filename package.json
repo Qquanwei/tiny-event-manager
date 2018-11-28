@@ -2,7 +2,7 @@
   "name": "tiny-event",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "karma start",
     "build": "babel src --out-dir dist"
