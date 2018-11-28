@@ -1,0 +1,33 @@
+{
+  "name": "tiny-event",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start",
+    "build": "babel src --out-dir dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.6",
+    "browserify": "^16.2.3",
+    "jasmine-core": "^3.3.0",
+    "jsdom": "^13.0.0",
+    "karma": "^3.1.1",
+    "karma-babel-preprocessor": "^8.0.0-beta.0",
+    "karma-browserify": "^5.3.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
+    "karma-jasmine": "^2.0.1",
+    "karma-jsdom-launcher": "^6.1.4",
+    "karma-spec-reporter": "0.0.32"
+  },
+  "dependencies": {
+    "babelify": "^10.0.0"
+  }
+}
