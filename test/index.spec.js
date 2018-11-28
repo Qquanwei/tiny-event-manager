@@ -4,6 +4,7 @@ import {
   createTimeout,
   createEventListener
 } from '../src';
+import { JSDOM } from 'jsdom';
 
 describe('test Subscription', () => {
   it ('should export Subscription', () => {
@@ -201,15 +202,52 @@ describe('test createEventListener', () => {
     expect(createEventListener.length).toBe(3);
   })
 
-  xit ('should createEventListener add listener success', () => {
+  it ('should createEventListener add listener success', () => {
     const eventCallback = jasmine.createSpy('eventCallback');
-
+    const window = (new JSDOM('')).window;
     const subscription = createEventListener(window, 'click', eventCallback);
     expect(subscription).toEqual(jasmine.any(Subscription));
 
-    const event = new Event('click');
-    window.triggerHandler(event);
+    const event = window.document.createEvent('HTMLEvents');
+    event.initEvent('click', false, true);
+
+    window.dispatchEvent(event);
+    window.dispatchEvent(event);
+    window.dispatchEvent(event);
+    window.dispatchEvent(event);
 
     expect(eventCallback).toHaveBeenCalled();
+    expect(eventCallback.calls.count()).toBe(4);
+  })
+
+  it ('should unsubscribe cancel eventListener', () => {
+    const eventCallback = jasmine.createSpy('eventCallback');
+    const window = (new JSDOM('')).window;
+    const subscription = createEventListener(window, 'click', eventCallback);
+
+    subscription.unsubscribe();
+    const event = window.document.createEvent('HTMLEvents');
+    event.initEvent('click', false, true);
+    window.dispatchEvent(event);
+
+    expect(eventCallback).not.toHaveBeenCalled();
+  })
+
+  it ('should add once option work correct', () => {
+    const eventCallback = jasmine.createSpy('eventCallback');
+    const window = (new JSDOM('')).window;
+    const subscription = createEventListener(window, 'click', eventCallback, { once: true });
+    expect(subscription).toEqual(jasmine.any(Subscription));
+
+    const event = window.document.createEvent('HTMLEvents');
+    event.initEvent('click', false, true);
+
+    window.dispatchEvent(event);
+    window.dispatchEvent(event);
+    window.dispatchEvent(event);
+    window.dispatchEvent(event);
+
+    expect(eventCallback).toHaveBeenCalled();
+    expect(eventCallback.calls.count()).toBe(1);
   })
 })
