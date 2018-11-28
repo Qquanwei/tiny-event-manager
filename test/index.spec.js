@@ -1,4 +1,9 @@
-import { createInterval, Subscription } from '../src';
+import {
+  createInterval,
+  Subscription,
+  createTimeout,
+  createEventListener
+} from '../src';
 
 describe('test Subscription', () => {
   it ('should export Subscription', () => {
@@ -138,5 +143,73 @@ describe('test createInterval', () => {
     jasmine.clock().tick(30000);
     expect(cb.calls.count()).toBe(1);
     jasmine.clock().uninstall();
+  })
+})
+
+describe('test createTimeout', () => {
+  beforeEach(() => {
+    jasmine.clock().install();
+  })
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  })
+
+  it ('should export createTimeout', () => {
+    expect(createTimeout).toBeTruthy();
+  })
+
+  it ('should createTimeout have two params', () => {
+    expect(createTimeout.length).toBe(2);
+  })
+
+  it ('should createTimeout work well', () => {
+    const cb = jasmine.createSpy();
+    const subscription = createTimeout(cb, 1500);
+
+    expect(subscription).toEqual(jasmine.any(Subscription));
+
+    jasmine.clock().tick(1499);
+    expect(cb).not.toHaveBeenCalled();
+    jasmine.clock().tick(1);
+    expect(cb).toHaveBeenCalled();
+    expect(cb.calls.count()).toBe(1);
+
+    jasmine.clock().tick(300000);
+    expect(cb.calls.count()).toBe(1);
+
+    subscription.unsubscribe();
+  })
+
+  it ('should unsubscribe cancel createTimeout', () => {
+    const cb = jasmine.createSpy();
+    const subscription = createTimeout(cb, 1500);
+
+    subscription.unsubscribe();
+    jasmine.clock().tick(30000);
+
+    expect(cb).not.toHaveBeenCalled();
+  })
+})
+
+describe('test createEventListener', () => {
+  it ('should export createEventListener', () => {
+    expect(createEventListener).toBeTruthy();
+  })
+
+  it ('should createEventListener has three params', () => {
+    expect(createEventListener.length).toBe(3);
+  })
+
+  xit ('should createEventListener add listener success', () => {
+    const eventCallback = jasmine.createSpy('eventCallback');
+
+    const subscription = createEventListener(window, 'click', eventCallback);
+    expect(subscription).toEqual(jasmine.any(Subscription));
+
+    const event = new Event('click');
+    window.triggerHandler(event);
+
+    expect(eventCallback).toHaveBeenCalled();
   })
 })

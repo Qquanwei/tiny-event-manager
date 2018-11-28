@@ -37,5 +37,20 @@ export function createInterval(callback, timeout) {
 }
 
 export function createTimeout(callback, timeout) {
-  setTimeout(callback, timeout);
+    const timer = setTimeout(callback, timeout);
+    return new Subscription(() => clearTimeout(timer));
+}
+
+export function createEventListener(element, eventName, callback, option = {}) {
+    if (!element) {
+        throw new Error('element should be a html element');
+    }
+
+    function anonymousEventHandler (e) {
+        callback(e);
+    }
+
+    element.addEventListener(eventName, anonymousEventHandler);
+
+    return new Subscription(() => element.removeEventListener(anonymousEventHandler));
 }
