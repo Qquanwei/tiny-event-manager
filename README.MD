@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Qquanwei/tiny-event.svg?branch=master)](https://travis-ci.org/Qquanwei/tiny-event)
+[![Build Status](https://travis-ci.org/Qquanwei/tiny-event-manager.svg?branch=master)](https://travis-ci.org/Qquanwei/tiny-event-manager)
 
 # tiny event manager
 
