@@ -5,6 +5,8 @@
 Javascript 轻量资源管理器
 
 
+博客介绍: https://juejin.im/post/5bfe3d3be51d454cc05cca00
+
 ## demo
 
 ```javascript
