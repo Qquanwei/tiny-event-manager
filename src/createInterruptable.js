@@ -1,7 +1,6 @@
 function wrapperCallback(intp, callback, self) {
   return function (fulfilled, rejected) {
     const r = callback.call(self, function () {
-      console.log('intp:', intp.interrupted);
       if (!intp.interrupted && fulfilled) {
         return fulfilled.apply(this, arguments);
       }
