@@ -36,4 +36,14 @@ subscription.unsubscribe();
 
 ### createEventListener :: (element, eventName, callback) => Subscription
 
+### createPromise :: (callback) => Subscription
+
+``` javascript
+subscription = createPromise((resolve) => {
+  resolve(this.fetchDone())
+    .then(() => {
+    })
+})
+```
+
 ### Subscription :: constructor(teardownOrSubscription)

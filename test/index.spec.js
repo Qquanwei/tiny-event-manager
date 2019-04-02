@@ -2,7 +2,8 @@ import {
   createInterval,
   Subscription,
   createTimeout,
-  createEventListener
+  createEventListener,
+  createPromise
 } from '../src';
 import { JSDOM } from 'jsdom';
 
@@ -249,5 +250,85 @@ describe('test createEventListener', () => {
 
     expect(eventCallback).toHaveBeenCalled();
     expect(eventCallback.calls.count()).toBe(1);
+  })
+
+
+})
+
+describe('test createPromise', () => {
+  it ('should createPromise is a function', () => {
+    expect(createPromise).toEqual(jasmine.any(Function));
+  })
+
+  it ('shoud createPromise create a promise return subscription', (done) => {
+    const subscription = createPromise(resolve => {
+      const p = resolve(new Promise((r, e) => {
+        setTimeout(() => r('magic'), 100);
+      })).then((value) => {
+        return value;
+      }).then((v) => {
+        expect(v).toEqual('magic');
+        done();
+      });
+
+      expect(p).toEqual(jasmine.any(Promise));
+    })
+    expect(subscription).toEqual(jasmine.any(Subscription));
+  })
+
+  it ('shoud createPromise then can resolve promise', (done) => {
+    const subscription = createPromise(resolve => {
+      const p = resolve(new Promise((r, e) => {
+        setTimeout(() => r(10), 100);
+      })).then((value) => {
+        return new Promise((r) => {
+          setTimeout(() => r(value + 10), 100);
+        })
+      }).then((v) => {
+        expect(v).toEqual(20);
+        done();
+      });
+    });
+  })
+
+  it ('shoud createPromise interrupted', (done) => {
+    let count = 0;
+    const subscription = createPromise(resolve => {
+      console.log(resolve(new Promise((r, e) => {
+        count = 1;
+
+        setTimeout(() => r(10), 100);
+      })).then((value) => {
+        count = 2;
+        return new Promise((r) => {
+          setTimeout(() => r(value + 10), 100);
+        });
+      }));
+
+      const p = resolve(new Promise((r, e) => {
+        count = 1;
+
+        setTimeout(() => r(10), 100);
+      })).then((value) => {
+        count = 2;
+        return new Promise((r) => {
+          setTimeout(() => r(value + 10), 100);
+        });
+      }).then((v) => {
+        count = 3;
+        console.log('execute');
+        expect(v).toEqual(20);
+      });
+    });
+
+    setTimeout(() => {
+      subscription.unsubscribe();
+      expect(count).toEqual(2);
+    }, 101);
+
+    setTimeout(() => {
+      expect(count).toEqual(2);
+      done();
+    }, 500);
   })
 })

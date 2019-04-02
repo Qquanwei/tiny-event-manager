@@ -1,3 +1,5 @@
+import createInterruptable from './createInterruptable';
+
 export function Subscription(teardownOrSubscription) {
   this.teardownOrSubscription = teardownOrSubscription;
   this.unsubscribed = false;
@@ -60,4 +62,13 @@ export function createEventListener(element, eventName, callback, option = {}) {
   subscription = new Subscription(() => element.removeEventListener(eventName, anonymousEventHandler));
 
   return subscription;
+}
+
+export function createPromise(callback) {
+    const intp = createInterruptable();
+    const result = new Subscription(() => {
+        intp.internalFlags.interrupted = true;
+    });
+    callback(intp.resolve);
+    return result;
 }
