@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Qquanwei/tiny-event-manager.svg?branch=master)](https://travis-ci.org/Qquanwei/tiny-event-manager)
+[![npm version](https://badge.fury.io/js/tiny-event-manager.svg)](https://badge.fury.io/js/tiny-event-manager)
 
 # tiny event manager
 
